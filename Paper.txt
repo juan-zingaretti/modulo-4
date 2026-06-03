@@ -1,0 +1,139 @@
+# La Industria de la Nuez en Argentina: Análisis Económico, Productivo y Tecnológico
+
+**Proyecto de análisis económico — Facultad de Ingeniería, Universidad Nacional de Cuyo, 2026**
+
+---
+
+## 1. Mercado Global de la Nuez
+
+El mercado mundial de nuez (Juglans regia) alcanzó un valor de **USD 9,4 mil millones en 2023** y se proyecta que llegue a **USD 14,2 mil millones para 2030**, con una tasa de crecimiento anual compuesta (CAGR) del **6,1%** impulsada por el aumento del consumo de frutos secos en mercados de Asia, Europa y Norteamérica.
+
+Los principales productores mundiales son:
+
+| País | Producción anual (t) | Participación global |
+|---|---|---|
+| China | 1.200.000 | 49% |
+| Estados Unidos (California) | 620.000 | 25% |
+| Chile | 130.000 | 5% |
+| Iran | 115.000 | 5% |
+| Argentina | 45.000 | 2% |
+
+El consumo per cápita más elevado se registra en **Turquía** (2,8 kg/hab/año) y **EE. UU.** (1,3 kg/hab/año). La demanda global está impulsada por evidencia científica que asocia el consumo regular de nuez con beneficios cardiovasculares y cognitivos, posicionándola como un alimento funcional de alto valor percibido.
+
+---
+
+## 2. Estructura Industrial Argentina
+
+La producción argentina de nuez se concentra en tres provincias que conforman el núcleo productivo del país:
+
+- **La Rioja**: principal provincia productora, con aproximadamente **18.000 hectáreas** cultivadas y condiciones agroclimáticas óptimas (amplitud térmica, baja humedad relativa)
+- **Mendoza**: segunda en superficie, con foco en variedades de calidad diferenciada para exportación
+- **San Juan**: producción en expansión, condicionada por disponibilidad hídrica y riego subterráneo
+
+La industria presenta una estructura **atomizada en el sector primario** (numerosos pequeños y medianos productores) pero **concentrada en el procesamiento y exportación**, donde cinco empresas manejan más del 60% del volumen exportado. Las principales empresas exportadoras tienen sede en La Rioja y operan plantas de pelado, secado y clasificación propias.
+
+A diferencia del mercado de pastas o lácteos, el sector nucero argentino no cuenta con marcas de consumo masivo local prominentes: el producto se comercializa principalmente a granel hacia mercados externos.
+
+---
+
+## 3. Cadena de Valor
+
+La cadena productiva de nuez comprende las siguientes etapas:
+
+```
+Producción agrícola → Cosecha → Secado → Pelado → Clasificación → Packaging → Exportación
+```
+
+**Producción agrícola**: el nogal requiere entre 7 y 10 años desde la plantación hasta alcanzar producción plena. El rendimiento promedio nacional es de **3.500 a 5.000 kg/ha** en plantaciones adultas con riego tecnificado.
+
+**Cosecha**: se realiza principalmente de forma **mecanizada** mediante vibradoras de tronco y barredoras, entre los meses de marzo y mayo. La sincronización del timing de cosecha es crítica: una demora de más de 48 horas tras la caída natural del fruto deteriora la calidad.
+
+**Secado**: etapa de mayor consumo energético. La nuez debe reducir su humedad del 35% al 8% para garantizar vida útil. Se utilizan secaderos de flujo de aire forzado, con una duración de 24 a 72 horas según el equipamiento disponible. El costo de esta etapa representa el **25-35% del costo operativo total**.
+
+**Pelado y clasificación**: el pelado separa el cáscaro del grano. La clasificación por tamaño, color y porcentaje de grano entero define el precio de venta: el grano entero "Extra Light" puede valer hasta tres veces más que el partido oscuro.
+
+**Exportación**: Argentina exporta mayoritariamente nuez con cáscara a Brasil y nuez pelada a Europa y EE. UU. El valor FOB promedio del kilogramo exportado se ubicó en **USD 2,80** en 2023.
+
+---
+
+## 4. Innovación Tecnológica en el Sector
+
+La industria nucera global incorpora crecientemente tecnologías de Industria 4.0 que impactan sobre la eficiencia y calidad del proceso:
+
+**Clasificación óptica automatizada**: sistemas de visión artificial con cámaras hiperespectrales permiten clasificar nueces por color de grano, presencia de manchas o contaminación fúngica a velocidades de hasta 10 toneladas/hora, reemplazando la inspección visual manual.
+
+**Simulación de eventos discretos**: herramientas como Simul8, Arena y AnyLogic se aplican para modelar cuellos de botella en las líneas de procesamiento, optimizar la capacidad de secaderos y diseñar el layout de plantas nuevas. La simulación permite anticipar el comportamiento del sistema ante variaciones de volumen de cosecha sin interrumpir la operación real.
+
+**Riego de precisión**: sensores de humedad de suelo conectados a sistemas SCADA permiten gestionar el riego por goteo en función de la demanda hídrica real del cultivo, reduciendo el consumo de agua entre un 20% y un 35% respecto del riego tradicional. Esto es especialmente relevante en San Juan y La Rioja, donde el agua subterránea es el recurso más crítico.
+
+**Trazabilidad blockchain**: algunos exportadores de alta gama implementan registros en blockchain para certificar el origen, las condiciones de procesamiento y la cadena de frío ante compradores europeos que exigen trazabilidad completa.
+
+---
+
+## 5. Comercio Exterior Argentino
+
+Las exportaciones argentinas de nuez mostraron un crecimiento sostenido en el período 2019-2024:
+
+| Año | Volumen exportado (t) | Valor FOB (USD millones) |
+|---|---|---|
+| 2019 | 28.400 | 68,2 |
+| 2020 | 31.100 | 72,5 |
+| 2021 | 38.600 | 95,3 |
+| 2022 | 42.200 | 108,7 |
+| 2023 | 45.000 | 126,0 |
+
+**Principales destinos de exportación (2023):**
+
+1. **Brasil** — 38% del volumen (nuez con cáscara, precio por volumen)
+2. **Italia** — 22% (nuez pelada, segmento premium)
+3. **Alemania** — 12% (nuez pelada, certificación orgánica)
+4. **Estados Unidos** — 9% (bajo arancel tras acuerdo bilateral 2026)
+5. **Países Bajos** — 7% (puerto de entrada para redistribución europea)
+
+La eliminación de retenciones para economías regionales dispuesta en 2024 mejoró la rentabilidad exportadora del sector entre un 8% y un 12% según estimaciones de ProMendoza, sin modificar la estructura de costos productivos.
+
+---
+
+## 6. Mercado de Cuyo y La Rioja
+
+La región de Cuyo y La Rioja concentra el **92% de la producción nacional de nuez**. Sus características distintivas son:
+
+- **Amplitud térmica**: la diferencia de hasta 20°C entre día y noche en la etapa de maduración del fruto favorece la concentración de aceites esenciales y el desarrollo del color claro del grano, atributos de alta valoración en el mercado europeo
+- **Disponibilidad hídrica limitada**: los ríos de montaña (Mendoza, San Juan, Atuel) y los acuíferos subterráneos de La Rioja son los únicos recursos disponibles; la escasez hídrica es la principal restricción al crecimiento del sector
+- **Infraestructura logística**: la conectividad vial con el Paso Los Libertadores (hacia Chile y el Pacífico) y el Puerto de Mendoza seco constituyen ventajas logísticas para la exportación
+
+La capacidad instalada regional de procesamiento (pelado y clasificación) se estima en **55.000 toneladas anuales**, lo que representa un superávit respecto de la producción actual pero plantea interrogantes sobre la utilización eficiente de esa capacidad en los meses de baja temporada.
+
+---
+
+## 7. Viabilidad de Proyecto: Planta de Clasificación y Packaging en Mendoza
+
+Con base en el análisis de la cadena de valor y el contexto regional, se propone una planta de clasificación, pelado y packaging de nuez en el Gran Mendoza orientada al segmento de exportación premium (grano entero "Extra Light" para Europa).
+
+**Parámetros del modelo:**
+
+| Variable | Valor estimado |
+|---|---|
+| Capacidad instalada | 2.000 t/temporada |
+| Inversión inicial (equipamiento + obra civil) | USD 1.800.000 |
+| Costo operativo variable por tonelada | USD 320 |
+| Precio de venta promedio (FOB) | USD 4.800/t (grano pelado premium) |
+| Margen bruto por tonelada | USD 4.480 |
+| Punto de equilibrio | 21% de la capacidad instalada (420 t) |
+| Proyección de ganancia neta anual (50% capacidad) | USD 2.150.000 |
+
+El modelo de negocio contempla la integración con productores primarios de La Rioja y San Juan mediante contratos de abastecimiento a precio fijo pre-temporada, reduciendo la exposición al riesgo de volatilidad de precios.
+
+La simulación de la línea de procesamiento (desarrollada en Módulo 3 mediante Simul8) identificó el **secadero** como el cuello de botella principal, con una utilización del 94% en pico de cosecha. La ampliación de la capacidad de secado en un 30% permite elevar el throughput total de la planta sin modificar el resto de la línea.
+
+---
+
+## Referencias
+
+- FAO STAT (2024). *Walnut production data 2019-2023*. Food and Agriculture Organization of the United Nations.
+- INDEC (2024). *Exportaciones argentinas por producto: nuez*. Instituto Nacional de Estadística y Censos.
+- INTA (2023). *El nogal en Argentina: situación actual y perspectivas*. Estación Experimental Agropecuaria Mendoza.
+- ProMendoza (2024). *Informe de exportaciones de economías regionales*. Agencia de Promoción de Exportaciones de Mendoza.
+- Kelley, K. & Epstein, L. (2021). *Optimizing walnut postharvest processing using discrete event simulation*. Journal of Agricultural Engineering Research, 48(3), 112-128.
+- Rojas, M. & Fernández, C. (2022). *Gestión hídrica en olivares y nogales de zonas áridas: modelos de optimización*. Revista de Ingeniería Agrícola, 15(2), 44-59.
+- Departamento General de Irrigación — Mendoza (2023). *Dotaciones y derechos de agua para cultivos permanentes*.
