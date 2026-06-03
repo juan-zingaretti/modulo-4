@@ -1,0 +1,346 @@
+---
+title: "Análisis Integrado de la Industria de la Nuez (Juglans regia)"
+description: |
+  Cadena de valor, simulación de procesos productivos y perspectivas para la región de Cuyo
+  y La Rioja, República Argentina (2025/2026). Trabajo enmarcado en la metodología de la
+  cátedra de Técnicas y Herramientas Modernas.
+author:
+  - name: "Glasner, Raimundo"
+    url: https://fing.uncuyo.edu.ar
+    affiliation: "Facultad de Ingeniería – Universidad Nacional de Cuyo"
+    affiliation_url: https://fing.uncuyo.edu.ar
+    orcid_id: 0000-0000-0000-0000
+date: "`r Sys.Date()`"
+bibliography: referencias.bib
+csl: apa.csl
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 3
+    code_folding: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
+                      fig.width = 7, fig.height = 4.2, dpi = 150)
+
+# Paquetes necesarios. Si falta alguno, en la consola de RStudio o Posit Cloud:
+#   install.packages(c("distill", "ggplot2", "jsonlite", "knitr", "dplyr", "scales"))
+library(ggplot2)
+library(jsonlite)
+library(knitr)
+library(dplyr)
+library(scales)
+
+# === El JSON alimenta las figuras y tablas (workflow de la cátedra) ===
+bd   <- fromJSON("nuez.json", simplifyDataFrame = TRUE)
+raiz <- bd$investigacion_industria_nuez
+viz  <- raiz$datos_para_visualizacion
+
+# Paleta de colores
+col_acento  <- "#5B8A3C"   # verde nogal
+col_alerta  <- "#C0392B"   # rojo alerta
+col_neutro  <- "#7F8C8D"
+```
+
+## Resumen {.abstract}
+
+Este artículo analiza la industria global y regional de la nuez (*Juglans regia*) desde una
+perspectiva de ingeniería industrial, integrando datos cuantitativos de mercado, análisis
+de cadena de valor y resultados de simulación de eventos discretos desarrollados con Simul8
+(Módulo 3). Se examina el posicionamiento competitivo de Argentina —y en particular de las
+provincias de Mendoza, San Juan y La Rioja— frente a los principales productores mundiales,
+identificando oportunidades de mejora en las etapas de secado, clasificación y exportación
+de grano premium. Los resultados de la simulación indican que el secadero opera como cuello
+de botella con un 94% de utilización en pico de cosecha, y que una ampliación del 30% en su
+capacidad eleva el throughput total de la planta sin modificaciones adicionales.
+
+---
+
+## 1. Introducción
+
+La nuez es uno de los frutos secos de mayor crecimiento en el comercio internacional,
+impulsada por evidencia científica que la asocia a beneficios cardiovasculares y cognitivos
+[@fao_stat_2024]. El mercado global alcanzó **USD 9.400 millones en 2023** y se proyecta que
+supere los USD 14.200 millones en 2030, con una tasa de crecimiento anual compuesta (CAGR)
+del 6,1% [@grand_view_2025].
+
+Argentina produce aproximadamente 45.000 toneladas anuales, concentradas en Cuyo y La Rioja,
+y exportó en 2023 por un valor FOB de USD 126 millones [@indec_2024]. Sin embargo, la cadena
+productiva presenta oportunidades de optimización significativas, particularmente en las
+etapas de postcosecha, que impactan directamente sobre la calidad y el precio de exportación
+del grano [@inta_mendoza_2023].
+
+Este trabajo se enmarca en el curso de Técnicas y Herramientas Modernas y extiende el modelo
+de simulación del Módulo 3 (desarrollado en Simul8) mediante un análisis de cadena de valor
+y una revisión de la literatura académica sobre tecnologías aplicadas al sector.
+
+---
+
+## 2. Dimensión Global
+
+### 2.1 Producción mundial por país
+
+```{r fig-produccion-global, fig.cap="Figura 1. Producción mundial de nuez por país (toneladas, 2023). Fuente: FAO STAT 2024."}
+df_paises <- viz$produccion_por_pais
+
+df_paises$pais <- factor(df_paises$pais,
+                          levels = df_paises$pais[order(df_paises$toneladas)])
+
+ggplot(df_paises, aes(x = pais, y = toneladas / 1000, fill = pais == "Argentina")) +
+  geom_col(width = 0.7) +
+  scale_fill_manual(values = c("FALSE" = col_neutro, "TRUE" = col_acento),
+                    guide = "none") +
+  scale_y_continuous(labels = comma_format(suffix = " k t")) +
+  coord_flip() +
+  labs(x = NULL, y = "Producción (miles de toneladas)",
+       title = "Producción mundial de nuez — 2023",
+       subtitle = "Argentina representa el 2% de la producción global") +
+  theme_minimal(base_size = 11) +
+  theme(plot.subtitle = element_text(color = col_neutro))
+```
+
+China domina con el **49% de la producción mundial**, seguida por Estados Unidos (California)
+con el 25% [@usda_ars_2024]. Chile, con 130.000 toneladas, es el mayor productor de América
+del Sur y el principal competidor regional de Argentina. La concentración geográfica de la
+oferta genera vulnerabilidad ante disrupciones climáticas o sanitarias en las zonas productoras
+asiáticas [@liu_zhao_2022].
+
+### 2.2 Dinámicas de precios y calidad
+
+El precio internacional de la nuez está fuertemente segmentado por calidad:
+
+```{r tabla-segmentos}
+df_seg <- data.frame(
+  Segmento         = c("Grano entero Extra Light", "Grano entero Light",
+                       "Grano partido claro", "Grano partido oscuro", "Con cáscara"),
+  Precio_USD_ton   = c(8500, 6200, 4100, 2800, 1400),
+  Mercado_destino  = c("Europa/EE. UU. premium", "Europa/EE. UU.",
+                       "Europa/Asia", "Industria alimentaria", "Brasil/mercado regional")
+)
+
+kable(df_seg,
+      col.names = c("Segmento", "Precio FOB (USD/t)", "Mercado destino"),
+      caption   = "Tabla 1. Segmentación de precios por calidad de grano (2023). Fuente: elaboración propia en base a ProMendoza 2024.",
+      align     = c("l", "r", "l"))
+```
+
+La diferencia de precio entre el grano partido oscuro y el grano entero Extra Light supera
+el **500%**, lo que convierte a la etapa de clasificación en un factor crítico de
+competitividad [@kelley_epstein_2021].
+
+---
+
+## 3. Dimensión Local: Argentina y la Región de Cuyo
+
+### 3.1 Estructura productiva regional
+
+```{r fig-produccion-regional, fig.cap="Figura 2. Distribución de hectáreas cultivadas de nogal por provincia (Argentina, 2023). Fuente: INTA 2023 / Ministerio de Agroindustria de La Rioja."}
+df_prov <- viz$produccion_regional_argentina
+
+df_prov$provincia <- factor(df_prov$provincia,
+                             levels = df_prov$provincia[order(df_prov$hectareas)])
+
+ggplot(df_prov, aes(x = provincia, y = hectareas, fill = provincia %in% c("La Rioja","Mendoza","San Juan"))) +
+  geom_col(width = 0.6) +
+  scale_fill_manual(values = c("FALSE" = col_neutro, "TRUE" = col_acento),
+                    guide = "none") +
+  scale_y_continuous(labels = comma) +
+  coord_flip() +
+  labs(x = NULL, y = "Hectáreas cultivadas",
+       title = "Nogal en Argentina — superficie por provincia (2023)",
+       subtitle = "Cuyo y La Rioja concentran el 92% de la producción nacional") +
+  theme_minimal(base_size = 11) +
+  theme(plot.subtitle = element_text(color = col_neutro))
+```
+
+La región de Cuyo y La Rioja concentra el 92% de la producción nacional, beneficiándose de
+una **amplitud térmica de hasta 20°C** entre día y noche durante la maduración, lo que
+favorece el desarrollo del color claro del grano, atributo premium para el mercado europeo
+[@inta_mendoza_2023].
+
+### 3.2 Restricciones hídricas y energéticas
+
+La disponibilidad de agua es la principal restricción estructural del sector en la región.
+Los nogales requieren entre 7.000 y 9.000 m³/ha/año, provenientes de ríos de montaña y
+acuíferos subterráneos regulados por el Departamento General de Irrigación de Mendoza y la
+Secretaría de Hidráulica de San Juan [@irrigacion_mendoza_2023].
+
+El costo energético del riego subterráneo en San Juan y La Rioja representa entre el 18% y
+el 25% del costo operativo total del cultivo, y es sensible a los aumentos de tarifas
+eléctricas. Tecnologías de riego de precisión con sensores IoT han demostrado reducir el
+consumo hídrico entre un 20% y un 35% [@morales_etal_2021].
+
+### 3.3 Exportaciones argentinas 2019–2023
+
+```{r fig-exportaciones, fig.cap="Figura 3. Evolución de las exportaciones argentinas de nuez 2019–2023 (millones USD FOB). Fuente: INDEC 2024."}
+df_exp <- viz$exportaciones_argentina
+
+ggplot(df_exp, aes(x = anio, y = valor_fob_musd)) +
+  geom_line(color = col_acento, linewidth = 1.4) +
+  geom_point(color = col_acento, size = 3.5) +
+  geom_text(aes(label = paste0("USD ", valor_fob_musd, "M")),
+            vjust = -1, size = 3.2, color = col_neutro) +
+  scale_x_continuous(breaks = df_exp$anio) +
+  scale_y_continuous(limits = c(50, 145), labels = dollar_format(prefix = "USD ", suffix = "M")) +
+  labs(x = NULL, y = "Valor FOB (millones USD)",
+       title = "Exportaciones argentinas de nuez — 2019 a 2023",
+       subtitle = "Crecimiento del 85% en valor FOB en el período") +
+  theme_minimal(base_size = 11) +
+  theme(plot.subtitle = element_text(color = col_neutro))
+```
+
+Las exportaciones crecieron un **85% en valor** entre 2019 y 2023, impulsadas por el aumento
+del precio internacional y la mayor proporción de grano pelado en la canasta exportable
+[@indec_2024; @promendoza_2024].
+
+```{r tabla-destinos}
+df_dest <- viz$destinos_exportacion_2023
+
+kable(df_dest,
+      col.names = c("País de destino", "Participación (%)", "Tipo de producto"),
+      caption   = "Tabla 2. Principales destinos de exportación de nuez argentina (2023). Fuente: ProMendoza 2024.",
+      align     = c("l", "r", "l"))
+```
+
+---
+
+## 4. Cadena de Valor y Costos de Producción
+
+### 4.1 Composición de costos por etapa
+
+```{r fig-costos, fig.cap="Figura 4. Distribución de costos operativos por etapa de la cadena productiva de nuez. Fuente: elaboración propia en base a INTA 2023."}
+df_costos <- viz$costos_cadena_valor
+
+df_costos$etapa <- factor(df_costos$etapa,
+                           levels = df_costos$etapa[order(df_costos$participacion_costo_pct)])
+
+ggplot(df_costos, aes(x = etapa, y = participacion_costo_pct,
+                       fill = etapa == "Secado")) +
+  geom_col(width = 0.6) +
+  scale_fill_manual(values = c("FALSE" = col_neutro, "TRUE" = col_alerta),
+                    guide = "none") +
+  scale_y_continuous(labels = percent_format(scale = 1)) +
+  coord_flip() +
+  labs(x = NULL, y = "Participación en el costo total (%)",
+       title = "Composición de costos — cadena productiva de nuez",
+       subtitle = "El secado es el cuello de botella energético y operativo (28% del costo)") +
+  theme_minimal(base_size = 11) +
+  theme(plot.subtitle = element_text(color = col_alerta))
+```
+
+El **secado** representa el 28% del costo operativo total y es la etapa de mayor consumo
+energético. La nuez debe reducir su humedad del 35% al 8% en 24 a 72 horas, utilizando
+secaderos de flujo de aire forzado [@kelley_epstein_2021; @garcia_etal_2023].
+
+### 4.2 Tecnologías de mejora en la cadena
+
+| Tecnología | Etapa | Beneficio reportado | Referencia |
+|---|---|---|---|
+| Clasificación óptica hiperspectral | Clasificación | Hasta 10 t/h, reemplaza inspección manual | @chen_etal_2020 |
+| Riego de precisión con IoT | Producción | -20% a -35% consumo hídrico | @morales_etal_2021 |
+| Simulación de eventos discretos | Secado / Planta | Optimización de layout y throughput | @garcia_etal_2023 |
+| Trazabilidad blockchain | Exportación | Acceso a mercados premium europeos | @liu_zhao_2022 |
+| Lean manufacturing | Pelado/Clasificación | Reducción de mermas y tiempos de ciclo | @hassan_etal_2022 |
+
+: Tabla 3. Tecnologías de Industria 4.0 aplicadas a la cadena de nuez.
+
+---
+
+## 5. Resultados de Simulación (Módulo 3 — Simul8)
+
+El modelo de simulación de eventos discretos desarrollado en Simul8 en el Módulo 3 permitió
+identificar los siguientes resultados para una planta de procesamiento de 2.000 t/temporada:
+
+```{r tabla-simulacion}
+sim <- viz$indicadores_simulacion_simul8
+
+df_sim <- data.frame(
+  Indicador = c("Cuello de botella identificado",
+                "Utilización del secadero (pico cosecha)",
+                "Mejora de throughput con ampliación del 30% del secadero",
+                "Reducción del tiempo de ciclo"),
+  Valor     = c(sim$cuello_botella,
+                paste0(sim$utilizacion_pico_cosecha_pct, "%"),
+                paste0("+", sim$mejora_throughput_con_ampliacion_pct, "%"),
+                paste0("-", sim$reduccion_tiempo_ciclo_pct, "%"))
+)
+
+kable(df_sim,
+      col.names = c("Indicador", "Resultado"),
+      caption   = "Tabla 4. Indicadores de la simulación Simul8 — planta de procesamiento de nuez.",
+      align     = c("l", "r"))
+```
+
+La simulación confirma que la inversión prioritaria debe orientarse a la ampliación de la
+capacidad de secado, con un retorno operativo estimado del 30% de mejora en throughput sin
+modificar el resto de la línea [@garcia_etal_2023].
+
+---
+
+## 6. Viabilidad del Proyecto
+
+Con base en el análisis de la cadena de valor y los resultados de la simulación, se evalúa
+la viabilidad de una **planta de clasificación y packaging de nuez premium** en el Gran
+Mendoza orientada a la exportación de grano entero Extra Light.
+
+```{r tabla-viabilidad}
+vp <- viz$viabilidad_proyecto
+
+df_via <- data.frame(
+  Variable = c("Capacidad instalada",
+               "Inversión inicial",
+               "Costo operativo variable",
+               "Precio de venta (FOB, grano pelado premium)",
+               "Margen bruto por tonelada",
+               "Punto de equilibrio",
+               "Ganancia neta anual proyectada (50% capacidad)"),
+  Valor    = c(paste0(format(vp$capacidad_instalada_toneladas, big.mark="."), " t/temporada"),
+               paste0("USD ", format(vp$inversion_inicial_usd, big.mark="."), ""),
+               paste0("USD ", vp$costo_variable_usd_por_ton, "/t"),
+               paste0("USD ", format(vp$precio_venta_usd_por_ton, big.mark="."), "/t"),
+               paste0("USD ", format(vp$margen_bruto_usd_por_ton, big.mark="."), "/t"),
+               paste0(vp$punto_equilibrio_pct_capacidad, "% de la capacidad (420 t)"),
+               paste0("USD ", format(vp$ganancia_neta_anual_usd, big.mark=".")))
+)
+
+kable(df_via,
+      col.names = c("Variable", "Valor"),
+      caption   = "Tabla 5. Parámetros de viabilidad — planta de nuez premium, Gran Mendoza.",
+      align     = c("l", "r"))
+```
+
+El modelo de negocio integra contratos de abastecimiento a precio fijo con productores
+primarios de La Rioja y San Juan, reduciendo la exposición a la volatilidad de precios
+[@mendez_soria_2023; @promendoza_2024].
+
+---
+
+## 7. Conclusiones
+
+La industria de la nuez en la región de Cuyo y La Rioja presenta condiciones objetivas de
+competitividad internacional —amplitud térmica, posición exportadora consolidada y acceso
+preferencial a EE. UU.— que justifican la inversión en optimización de la postcosecha.
+
+Los principales hallazgos de este trabajo son:
+
+- El mercado global de nuez crecerá al 6,1% anual hasta 2030, con demanda creciente de
+  grano premium en Europa y EE. UU. [@grand_view_2025].
+- Argentina exportó USD 126 millones en 2023, con margen de crecimiento en el segmento
+  de grano pelado de alta calidad [@indec_2024].
+- La simulación en Simul8 identifica el secadero como cuello de botella crítico: una
+  ampliación del 30% de su capacidad genera una mejora del 30% en throughput de planta.
+- Tecnologías de clasificación óptica, riego de precisión y trazabilidad blockchain
+  representan las inversiones de mayor impacto en la cadena de valor [@chen_etal_2020;
+  @morales_etal_2021].
+- La restricción hídrica es el principal límite estructural al crecimiento del sector en
+  San Juan y La Rioja, y debe incorporarse explícitamente en futuras versiones del modelo
+  de simulación [@irrigacion_mendoza_2023].
+
+Queda abierta para investigación futura la incorporación de datos cuantitativos provinciales
+desagregados (costos de energía eléctrica por zona tarifaria, dotaciones de agua por
+departamento) que permitan refinar el modelo de simulación y las proyecciones de viabilidad.
+
+---
+
+## Referencias

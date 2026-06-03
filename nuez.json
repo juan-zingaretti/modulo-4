@@ -1,0 +1,71 @@
+{
+  "investigacion_industria_nuez": {
+    "metadatos": {
+      "titulo": "Análisis de la Industria de la Nuez (Juglans regia): Cadena de Valor, Simulación y Perspectivas para la Región de Cuyo y La Rioja",
+      "grupo": "Técnicas y Herramientas Modernas — Facultad de Ingeniería, UNCuyo",
+      "anio": 2026,
+      "enfoque": "Cuantitativo-descriptivo con base en fuentes primarias y literatura académica"
+    },
+    "datos_para_visualizacion": {
+      "mercado_global": {
+        "valor_usd_millones_2023": 9400,
+        "valor_usd_millones_proyectado_2030": 14200,
+        "cagr_porcentaje": 6.1,
+        "volumen_produccion_mundial_toneladas": 2450000,
+        "fuente": "FAO STAT 2024 / Grand View Research 2025"
+      },
+      "produccion_por_pais": [
+        { "pais": "China",          "toneladas": 1200000, "participacion_pct": 49 },
+        { "pais": "EE. UU.",        "toneladas": 620000,  "participacion_pct": 25 },
+        { "pais": "Chile",          "toneladas": 130000,  "participacion_pct": 5  },
+        { "pais": "Irán",           "toneladas": 115000,  "participacion_pct": 5  },
+        { "pais": "Turquía",        "toneladas": 98000,   "participacion_pct": 4  },
+        { "pais": "Argentina",      "toneladas": 45000,   "participacion_pct": 2  },
+        { "pais": "Resto del mundo","toneladas": 242000,  "participacion_pct": 10 }
+      ],
+      "exportaciones_argentina": [
+        { "anio": 2019, "toneladas": 28400, "valor_fob_musd": 68.2  },
+        { "anio": 2020, "toneladas": 31100, "valor_fob_musd": 72.5  },
+        { "anio": 2021, "toneladas": 38600, "valor_fob_musd": 95.3  },
+        { "anio": 2022, "toneladas": 42200, "valor_fob_musd": 108.7 },
+        { "anio": 2023, "toneladas": 45000, "valor_fob_musd": 126.0 }
+      ],
+      "destinos_exportacion_2023": [
+        { "pais": "Brasil",          "participacion_pct": 38, "tipo": "Con cáscara" },
+        { "pais": "Italia",          "participacion_pct": 22, "tipo": "Pelada premium" },
+        { "pais": "Alemania",        "participacion_pct": 12, "tipo": "Orgánica certificada" },
+        { "pais": "EE. UU.",         "participacion_pct": 9,  "tipo": "Pelada (arancel 0%)" },
+        { "pais": "Países Bajos",    "participacion_pct": 7,  "tipo": "Pelada (redistribución)" },
+        { "pais": "Otros",           "participacion_pct": 12, "tipo": "Varios" }
+      ],
+      "produccion_regional_argentina": [
+        { "provincia": "La Rioja",  "hectareas": 18000, "participacion_nacional_pct": 40 },
+        { "provincia": "Mendoza",   "hectareas": 14000, "participacion_nacional_pct": 31 },
+        { "provincia": "San Juan",  "hectareas": 9500,  "participacion_nacional_pct": 21 },
+        { "provincia": "Resto",     "hectareas": 3500,  "participacion_nacional_pct": 8  }
+      ],
+      "costos_cadena_valor": [
+        { "etapa": "Producción agrícola", "participacion_costo_pct": 38 },
+        { "etapa": "Secado",              "participacion_costo_pct": 28 },
+        { "etapa": "Pelado",              "participacion_costo_pct": 14 },
+        { "etapa": "Clasificación",       "participacion_costo_pct": 10 },
+        { "etapa": "Packaging/Logística", "participacion_costo_pct": 10 }
+      ],
+      "viabilidad_proyecto": {
+        "capacidad_instalada_toneladas": 2000,
+        "inversion_inicial_usd": 1800000,
+        "costo_variable_usd_por_ton": 320,
+        "precio_venta_usd_por_ton": 4800,
+        "margen_bruto_usd_por_ton": 4480,
+        "punto_equilibrio_pct_capacidad": 21,
+        "ganancia_neta_anual_usd": 2150000
+      },
+      "indicadores_simulacion_simul8": {
+        "cuello_botella": "Secadero",
+        "utilizacion_pico_cosecha_pct": 94,
+        "mejora_throughput_con_ampliacion_pct": 30,
+        "reduccion_tiempo_ciclo_pct": 18
+      }
+    }
+  }
+}
